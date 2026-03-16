@@ -1872,12 +1872,17 @@ footer.global-nav {
                 </div>
             </div>
 
-            <div class="w-64 flex flex-col justify-center items-center bg-black/40 border border-cyan-500/20 rounded-2xl p-4">
-                <div class="text-[9px] text-gray-500 font-bold mb-1 uppercase tracking-widest">System Scan</div>
-                <div id="classification-display" class="text-cyan-400 font-bold text-lg tracking-tighter uppercase text-center" style="font-family: 'Orbitron', sans-serif;">
-                    Standby
+            <div class="w-80 flex flex-col items-center bg-black/60 border border-cyan-500/40 rounded-2xl p-4 shadow-[0_0_15px_rgba(6,182,212,0.1)]">
+                <div class="text-[9px] text-gray-500 font-bold mb-2 uppercase tracking-widest shrink-0">System Scan</div>
+                
+                <div class="flex-grow overflow-y-auto custom-scrollbar w-full flex flex-col justify-center">
+                    <div id="classification-display" class="text-cyan-400 font-black text-2xl tracking-tighter uppercase text-center leading-tight mb-2" style="font-family: 'Orbitron', sans-serif;">
+                        Standby
+                    </div>
+                    <div id="substance-type" class="text-sm text-emerald-500 font-mono uppercase text-center tracking-tight">
+                        Ready for Analysis
+                    </div>
                 </div>
-                <div id="substance-type" class="text-[10px] text-emerald-500 mt-2 font-mono uppercase">Ready for Analysis</div>
             </div>
 
             <div class="flex-1 flex flex-col items-center">
