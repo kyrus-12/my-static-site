@@ -1649,8 +1649,11 @@ footer.global-nav {
   <div id="elementsLabModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[70] p-4">
     <div class="bg-gray-900 border border-cyan-500 rounded-2xl p-6 w-full max-w-4xl shadow-2xl overflow-y-auto max-h-[95vh]">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-bold text-cyan-400">Mystery Matter Lab</h2>
-            <button class="text-gray-400 hover:text-white" onclick="closeElementsLab()">✕</button>
+            <div>
+                <h2 class="text-xl font-bold text-cyan-400">Mystery Matter Lab</h2>
+                <p class="text-xs text-gray-500 font-mono">ADJUST PROTONS/ELECTRONS THEN CLICK ELEMENT TO IDENTIFY</p>
+            </div>
+            <button class="text-gray-400 hover:text-white text-2xl" onclick="closeElementsLab()">✕</button>
         </div>
 
         <div id="periodicTableGrid" class="periodic-grid"></div>
@@ -1662,22 +1665,22 @@ footer.global-nav {
             
             <div class="space-y-4">
                 <div class="bg-black/40 p-4 rounded-xl border border-white/10">
-                    <div class="flex justify-between text-lg"><span>Protons:</span><span id="pCountVal" class="text-red-500 font-bold">0</span></div>
-                    <div class="flex justify-between text-lg"><span>Electrons:</span><span id="eCountVal" class="text-yellow-400 font-bold">0</span></div>
+                    <div class="flex justify-between text-lg text-white"><span>Protons (Atomic #):</span><span id="pCountVal" class="text-red-500 font-bold">0</span></div>
+                    <div class="flex justify-between text-lg text-white"><span>Electrons (Charge):</span><span id="eCountVal" class="text-yellow-400 font-bold">0</span></div>
                 </div>
                 
                 <div class="grid grid-cols-2 gap-2">
-                    <button class="bg-red-900/20 border border-red-500/50 text-red-200 p-2 rounded" onclick="updateElementsLab(1, 0)">+ Proton</button>
-                    <button class="bg-red-900/20 border border-red-500/50 text-red-200 p-2 rounded" onclick="updateElementsLab(-1, 0)">- Proton</button>
-                    <button class="bg-yellow-900/20 border border-yellow-500/50 text-yellow-200 p-2 rounded" onclick="updateElementsLab(0, 1)">+ Electron</button>
-                    <button class="bg-yellow-900/20 border border-yellow-500/50 text-yellow-200 p-2 rounded" onclick="updateElementsLab(0, -1)">- Electron</button>
+                    <button class="bg-red-900/20 border border-red-500/50 text-red-200 p-2 rounded hover:bg-red-900/40" onclick="updateElementsLab(1, 0)">+ Proton</button>
+                    <button class="bg-red-900/20 border border-red-500/50 text-red-200 p-2 rounded hover:bg-red-900/40" onclick="updateElementsLab(-1, 0)">- Proton</button>
+                    <button class="bg-yellow-900/20 border border-yellow-500/50 text-yellow-200 p-2 rounded hover:bg-yellow-900/40" onclick="updateElementsLab(0, 1)">+ Electron</button>
+                    <button class="bg-yellow-900/20 border border-yellow-500/50 text-yellow-200 p-2 rounded hover:bg-yellow-900/40" onclick="updateElementsLab(0, -1)">- Electron</button>
                 </div>
-                <button class="w-full p-2 bg-gray-800 text-gray-400 text-xs rounded" onclick="resetElementsGame()">RESET ALL</button>
-                <div id="el-msg" class="text-center font-bold h-6"></div>
+                <button class="w-full p-2 bg-gray-800 text-gray-400 text-xs rounded hover:bg-gray-700" onclick="resetElementsGame()">RESET LAB STATE</button>
+                <div id="el-msg" class="text-center font-bold min-h-[80px] flex items-center justify-center border-t border-white/5 mt-2"></div>
             </div>
         </div>
     </div>
-  </div>
+</div>
     
   
 <div id="solutionLabModal" class="fixed inset-0 bg-black/90 hidden items-start md:items-center justify-center z-[70] p-2 md:p-4 overflow-y-auto">
