@@ -1938,9 +1938,15 @@ footer.global-nav {
                 </div>
 
                 <button class="btn bg-slate-600 w-full py-2 rounded-xl text-white font-bold hover:bg-slate-500 transition-colors" onclick="resetPhaseSystem()">Reset System</button>
-                <div class="text-[10px] text-white/30 font-mono italic">Waiting for phase trigger...</div>
-                <div id="phase-feedback" class="mt-2 min-h-[120px] bg-black/40 rounded-xl border border-white/5 p-3 overflow-y-auto">
- 
+               
+                <div class="w-full shrink-0">
+                <div class="text-xs text-cyan-500 font-bold mb-2 uppercase tracking-[0.2em] ml-2">Molecular Analysis Report</div>
+                <div id="phase-feedback" 
+                     class="min-h-[150px] max-h-[250px] bg-black/60 rounded-2xl border border-cyan-500/30 p-6 overflow-y-auto shadow-inner text-white leading-relaxed">
+                    <div class="text-xl font-medium text-gray-200" id="phase-feedback-content">
+                        Select a phase change above to begin the molecular simulation...
+                    </div>
+                </div>
             </div>
                 
             </div>
