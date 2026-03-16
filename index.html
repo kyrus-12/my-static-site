@@ -3653,13 +3653,12 @@ function renderElectronUI(data, protons, electrons, name, valenceCount, target, 
 }
     
     
-    
-      function closeElementsLab() {
+  function closeElementsLab() {
     document.getElementById('elementsLabModal').classList.add('hidden');
     document.getElementById('elementsLabModal').classList.remove('flex');
 }
 
-// Approximate atomic masses to calculate neutrons (Mass - Protons = Neutrons)
+// Approximate atomic masses (Mass - Protons = Neutrons)
 const labMasses = [
   1, 4, 7, 9, 11, 12, 14, 16, 19, 20, 23, 24, 27, 28, 31, 32, 35, 40, 39, 40,
   45, 48, 51, 52, 55, 56, 59, 59, 64, 65, 70, 73, 75, 79, 80, 84, 85, 88, 89, 91,
@@ -3669,9 +3668,9 @@ const labMasses = [
   258, 259, 262, 267, 268, 271, 270, 277, 276, 281, 280, 285, 284, 289, 288, 293, 294, 294
 ];
     
-// --- Elements Lab Logic ---
 let elPCount = 0; 
 let elECount = 0;
+const elementFactCache = new Map();
 
 function getGroupClass(n) {
     if (n === 1) return "nonmetal";
@@ -3697,11 +3696,9 @@ function getElPos(n) {
     if (n >= 57 && n <= 71) return {r:8, c: (n-57)+3}; if (n >= 89 && n <= 103) return {r:9, c: (n-89)+3};
 }
 
-// Global cache for element facts to save API calls
-const elementFactCache = new Map();
-
 function initElementsLab() {
     const grid = document.getElementById('periodicTableGrid');
+    if (!grid) return;
     if (grid.children.length === 0) {
         for(let i=1; i<=118; i++) {
             const div = document.createElement('div');
@@ -3710,62 +3707,57 @@ function initElementsLab() {
             div.id = 'el-idx-' + i;
             const pos = getElPos(i);
             div.style.gridRow = pos.r; div.style.gridColumn = pos.c;
-            div.innerHTML = `<span class="el-at-num">${i}</span><span class="el-sym">${labElements[i-1]}</span>`;
+            
+            // Ensure labElements array exists
+            const symbol = (typeof labElements !== 'undefined') ? labElements[i-1] : "?";
+            div.innerHTML = `<span class="el-at-num">${i}</span><span class="el-sym">${symbol}</span>`;
             
             div.onclick = async () => {
                 const msg = document.getElementById('el-msg');
-                const name = (labElementNames[i-1] || labElements[i-1]);
-                const symbol = labElements[i-1];
+                const name = (typeof labElementNames !== 'undefined') ? labElementNames[i-1] : symbol;
                 const mass = labMasses[i-1];
                 const neutrons = Math.round(mass - i);
                 const group = groupName.toUpperCase();
-                
                 const article = ["A", "E", "I", "O", "U"].includes(group[0]) ? "an" : "a";
 
                 if(elPCount === i && elECount === i) {
                     div.classList.add('revealed');
-                    msg.className = "text-green-400 font-mono text-sm tracking-tight leading-relaxed uppercase";
+                    // ENLARGED FONT CLASS
+                    msg.className = "text-center font-bold text-xl md:text-2xl uppercase tracking-tight leading-tight w-full p-4";
                     
-                    // Instant base info
-                    msg.innerHTML = `
-                        <span class="text-white animate-pulse">ANALYZING SPECIMEN: ${name.toUpperCase()}...</span>
-                    `;
+                    msg.innerHTML = `<span class="text-cyan-400 animate-pulse">Scanning Molecular Signature: ${name}...</span>`;
 
-                    // AI Call for Real-Life Examples
                     try {
-                        let aiFact = "";
+                        let aiFact = "Highly specialized atomic structure.";
                         if (elementFactCache.has(symbol)) {
                             aiFact = elementFactCache.get(symbol);
-                        } else if (typeof puter !== 'undefined' && puter.ai?.chat) {
+                        } else if (typeof puter !== 'undefined' && puter.ai) {
                             const response = await puter.ai.chat(
-                                `Give me a one-sentence real-world everyday example of how ${name} (${symbol}) is used. Keep it fun and scientific.`
+                                `Give me a very short, fun, one-sentence real-world example of how ${name} is used.`
                             );
                             aiFact = response?.message?.content || response;
                             elementFactCache.set(symbol, aiFact);
                         }
 
+                        // Final Display with Enlarged Text
                         msg.innerHTML = `
-                            <span class="text-white">ANALYSIS COMPLETE:</span> The identified specimen is 
-                            <strong class="text-white underline">${name} (${symbol})</strong>, 
-                            categorized as ${article} <strong class="text-emerald-300 italic">${group}</strong>. 
-                            <br>Atomic composition: 
-                            <span class="text-blue-400 font-bold">${elPCount}P</span> | 
-                            <span class="text-yellow-300 font-bold">${neutrons}N</span> | 
-                            <span class="text-red-400 font-bold">${elECount}E</span>.
-                            <div class="mt-2 p-2 bg-white/5 border-l-2 border-emerald-500 normal-case text-emerald-100 italic">
-                                <b>Real-World Application:</b> ${aiFact}
+                            <div class="flex flex-col gap-1">
+                                <span class="text-green-400">Target Identified: ${name} (${symbol})</span>
+                                <div class="text-sm tracking-widest text-gray-400">
+                                    ${article} ${group} | ${i}P • ${neutrons}N • ${elECount}E
+                                </div>
+                                <div class="mt-2 text-base text-white italic font-normal normal-case border-t border-white/10 pt-2">
+                                    "${aiFact}"
+                                </div>
                             </div>
                         `;
                     } catch (err) {
-                        console.warn("AI Fact failed", err);
-                        // Fallback if AI fails
-                        msg.innerHTML = `<span class="text-white">IDENTIFIED: ${name}</span>. Error loading extra data.`;
+                        msg.innerHTML = `<span class="text-green-400">Identified: ${name}</span>`;
                     }
 
                 } else {
-                    msg.className = "text-red-400 font-mono text-sm uppercase";
-                    msg.innerHTML = `<strong>Identification Error:</strong> Targeted cell <strong>${name}</strong> 
-                                    requires ${i} protons/electrons. Current system state: P:${elPCount}, E:${elECount}.`;
+                    msg.className = "text-red-500 font-bold text-lg uppercase text-center p-4";
+                    msg.innerHTML = `Calibration Error: ${name} requires ${i} protons. <br><span class="text-xs text-gray-500">System has ${elPCount}.</span>`;
                 }
             };
             grid.appendChild(div);
@@ -3812,7 +3804,10 @@ function resetElementsGame() {
     elPCount = 0; elECount = 0;
     updateElementsLab(0,0);
     document.querySelectorAll('.el-cell').forEach(el => el.classList.remove('revealed'));
-}
+    const msg = document.getElementById('el-msg');
+    msg.innerHTML = "";
+}  
+     
     
       
       function closeMolLab() {
