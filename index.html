@@ -644,17 +644,20 @@ body.theme-nature {
 .periodic-grid {
     display: grid;
     grid-template-columns: repeat(18, 1fr);
-    gap: 4px;
+    grid-template-rows: repeat(10, 1fr);
+    gap: 3px;
     background: #0f172a;
     padding: 15px;
     border-radius: 12px;
     border: 1px solid rgba(255,255,255,0.1);
     margin-bottom: 20px;
     overflow-x: auto;
+    min-height: 400px;
 }
 
+/* Element Cell Base Styles */
 .el-cell {
-    aspect-ratio: 1/1.2;
+    aspect-ratio: 1/1;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
@@ -666,12 +669,24 @@ body.theme-nature {
     border-radius: 3px;
     position: relative;
     color: rgba(255,255,255,0.2);
+    transition: all 0.2s ease;
 }
 
-.el-cell.revealed { color: #000; font-weight: 800; border: none; }
-.el-cell:hover { transform: scale(1.1); z-index: 5; box-shadow: 0 0 10px white; }
+.el-cell:hover { 
+    transform: scale(1.15); 
+    z-index: 10; 
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    border-color: rgba(0, 255, 255, 0.5);
+}
 
-/* Group Colors */
+.el-cell.revealed { 
+    color: #000; 
+    font-weight: 800; 
+    border: none; 
+    box-shadow: 0 0 10px currentColor;
+}
+
+/* Group Colors for Revealed State */
 .el-cell.revealed.alkali { background: #ff6b6b; box-shadow: 0 0 10px #ff6b6b; }
 .el-cell.revealed.alkaline { background: #feca57; box-shadow: 0 0 10px #feca57; }
 .el-cell.revealed.transition { background: #48dbfb; box-shadow: 0 0 10px #48dbfb; }
@@ -682,24 +697,99 @@ body.theme-nature {
 .el-cell.revealed.lanthanide { background: #be2edd; box-shadow: 0 0 10px #be2edd; }
 .el-cell.revealed.actinide { background: #eb4d4b; box-shadow: 0 0 10px #eb4d4b; }
 
-.el-at-num { font-size: 8px; position: absolute; top: 2px; left: 2px; }
-.el-sym { visibility: hidden; font-size: 12px; }
-.revealed .el-sym { visibility: visible; }
+.el-at-num { 
+    font-size: 8px; 
+    position: absolute; 
+    top: 2px; 
+    left: 2px; 
+    color: inherit;
+}
+.el-sym { 
+    visibility: hidden; 
+    font-size: 14px;
+    font-weight: bold;
+}
+.revealed .el-sym { 
+    visibility: visible; 
+}
 
+/* Atom Canvas */
 .atom-canvas {
     width: 100%;
-    height: 250px;
+    height: 300px;
     position: relative;
     background: radial-gradient(circle, #1e293b 0%, #05080a 100%);
     border-radius: 12px;
-    margin-bottom: 15px;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .nucleus-static {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    width: 25px; height: 25px; background: #ff4d4d; border-radius: 50%;
-    z-index: 10; box-shadow: 0 0 15px #ff4d4d;
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    width: 30px; 
+    height: 30px; 
+    background: radial-gradient(circle, #ff4d4d 0%, #b30000 100%); 
+    border-radius: 50%;
+    z-index: 10; 
+    box-shadow: 0 0 20px #ff4d4d;
+}
+
+/* Electron Shells and Orbits */
+.shell {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.orbit-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    animation: orbit-rotation linear infinite;
+}
+
+@keyframes orbit-rotation {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.e-particle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #fbff00;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #fbff00, 0 0 20px rgba(251, 255, 0, 0.5);
+    z-index: 20;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .periodic-grid {
+        gap: 2px;
+        padding: 8px;
+    }
+    .el-cell {
+        font-size: 8px;
+    }
+    .el-sym {
+        font-size: 10px;
+    }
+    .atom-canvas {
+        height: 250px;
+    }
 }
   
 /* --- Fix: Electron Particle & Orbit Styles --- */
@@ -1646,8 +1736,8 @@ footer.global-nav {
 </div>
 </div>
   
-  <div id="elementsLabModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[70] p-4">
-    <div class="bg-gray-900 border border-cyan-500 rounded-2xl p-6 w-full max-w-4xl shadow-2xl overflow-y-auto max-h-[95vh]">
+ <div id="elementsLabModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[70] p-4">
+    <div class="bg-gray-900 border border-cyan-500 rounded-2xl p-6 w-full max-w-5xl shadow-2xl overflow-y-auto max-h-[95vh]">
         <div class="flex justify-between items-center mb-4">
             <div>
                 <h2 class="text-xl font-bold text-cyan-400">Mystery Matter Lab</h2>
@@ -1656,27 +1746,40 @@ footer.global-nav {
             <button class="text-gray-400 hover:text-white text-2xl" onclick="closeElementsLab()">✕</button>
         </div>
 
+        <!-- Periodic Table Grid -->
         <div id="periodicTableGrid" class="periodic-grid"></div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-            <div id="atom-canvas" class="atom-canvas">
+        <!-- Atom Canvas and Controls -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center mt-6">
+            <div id="atom-canvas" class="atom-canvas relative">
                 <div class="nucleus-static"></div>
             </div>
             
             <div class="space-y-4">
+                <!-- Counters -->
                 <div class="bg-black/40 p-4 rounded-xl border border-white/10">
-                    <div class="flex justify-between text-lg text-white"><span>Protons (Atomic #):</span><span id="pCountVal" class="text-red-500 font-bold">0</span></div>
-                    <div class="flex justify-between text-lg text-white"><span>Electrons (Charge):</span><span id="eCountVal" class="text-yellow-400 font-bold">0</span></div>
+                    <div class="flex justify-between text-lg text-white mb-2">
+                        <span>Protons (Atomic #):</span>
+                        <span id="pCountVal" class="text-red-500 font-bold">0</span>
+                    </div>
+                    <div class="flex justify-between text-lg text-white">
+                        <span>Electrons (Charge):</span>
+                        <span id="eCountVal" class="text-yellow-400 font-bold">0</span>
+                    </div>
                 </div>
                 
+                <!-- Control Buttons -->
                 <div class="grid grid-cols-2 gap-2">
-                    <button class="bg-red-900/20 border border-red-500/50 text-red-200 p-2 rounded hover:bg-red-900/40" onclick="updateElementsLab(1, 0)">+ Proton</button>
-                    <button class="bg-red-900/20 border border-red-500/50 text-red-200 p-2 rounded hover:bg-red-900/40" onclick="updateElementsLab(-1, 0)">- Proton</button>
-                    <button class="bg-yellow-900/20 border border-yellow-500/50 text-yellow-200 p-2 rounded hover:bg-yellow-900/40" onclick="updateElementsLab(0, 1)">+ Electron</button>
-                    <button class="bg-yellow-900/20 border border-yellow-500/50 text-yellow-200 p-2 rounded hover:bg-yellow-900/40" onclick="updateElementsLab(0, -1)">- Electron</button>
+                    <button class="bg-red-900/20 border border-red-500/50 text-red-200 p-2 rounded hover:bg-red-900/40 transition-all" onclick="updateElementsLab(1, 0)">+ Proton</button>
+                    <button class="bg-red-900/20 border border-red-500/50 text-red-200 p-2 rounded hover:bg-red-900/40 transition-all" onclick="updateElementsLab(-1, 0)">- Proton</button>
+                    <button class="bg-yellow-900/20 border border-yellow-500/50 text-yellow-200 p-2 rounded hover:bg-yellow-900/40 transition-all" onclick="updateElementsLab(0, 1)">+ Electron</button>
+                    <button class="bg-yellow-900/20 border border-yellow-500/50 text-yellow-200 p-2 rounded hover:bg-yellow-900/40 transition-all" onclick="updateElementsLab(0, -1)">- Electron</button>
                 </div>
-                <button class="w-full p-2 bg-gray-800 text-gray-400 text-xs rounded hover:bg-gray-700" onclick="resetElementsGame()">RESET LAB STATE</button>
-                <div id="el-msg" class="text-center font-bold min-h-[80px] flex items-center justify-center border-t border-white/5 mt-2"></div>
+                
+                <button class="w-full p-2 bg-gray-800 text-gray-400 text-xs rounded hover:bg-gray-700 transition-all" onclick="resetElementsGame()">RESET LAB STATE</button>
+                
+                <!-- Message Display -->
+                <div id="el-msg-display" class="text-center font-bold min-h-[80px] flex items-center justify-center border-t border-white/5 mt-2 text-sm"></div>
             </div>
         </div>
     </div>
@@ -3664,153 +3767,12 @@ function renderElectronUI(data, protons, electrons, name, valenceCount, target, 
 }
     
     
-  
-  // --- Data Arrays ---
-const labElements = ["H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar", "K", "Ca", "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge", "As", "Se", "Br", "Kr", "Rb", "Sr", "Y", "Zr", "Nb", "Mo", "Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "In", "Sn", "Sb", "Te", "I", "Xe", "Cs", "Ba", "La", "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", "Gd", "Tb", "Dy", "Ho", "Er", "Tm", "Yb", "Lu", "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au", "Hg", "Tl", "Pb", "Bi", "Po", "At", "Rn", "Fr", "Ra", "Ac", "Th", "Pa", "U", "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr", "Rf", "Db", "Sg", "Bh", "Hs", "Mt", "Ds", "Rg", "Cn", "Nh", "Fl", "Mc", "Lv", "Ts", "Og"];
-const labElementNames = ["Hydrogen", "Helium", "Lithium", "Beryllium", "Boron", "Carbon", "Nitrogen", "Oxygen", "Fluorine", "Neon", "Sodium", "Magnesium", "Aluminum", "Silicon", "Phosphorus", "Sulfur", "Chlorine", "Argon", "Potassium", "Calcium", "Scandium", "Titanium", "Vanadium", "Chromium", "Manganese", "Iron", "Cobalt", "Nickel", "Copper", "Zinc", "Gallium", "Germanium", "Arsenic", "Selenium", "Bromine", "Krypton", "Rubidium", "Strontium", "Yttrium", "Zirconium", "Niobium", "Molybdenum", "Technetium", "Ruthenium", "Rhodium", "Palladium", "Silver", "Cadmium", "Indium", "Tin", "Antimony", "Tellurium", "Iodine", "Xenon", "Cesium", "Barium", "Lanthanum", "Cerium", "Praseodymium", "Neodymium", "Promethium", "Samarium", "Europium", "Gadolinium", "Terbium", "Dysprosium", "Holmium", "Erbium", "Thulium", "Ytterbium", "Lutetium", "Hafnium", "Tantalum", "Tungsten", "Rhenium", "Osmium", "Iridium", "Platinum", "Gold", "Mercury", "Thallium", "Lead", "Bismuth", "Polonium", "Astatine", "Radon", "Francium", "Radium", "Actinium", "Thorium", "Protactinium", "Uranium", "Neptunium", "Plutonium", "Americium", "Curium", "Berkelium", "Californium", "Einsteinium", "Fermium", "Mendelevium", "Nobelium", "Lawrencium", "Rutherfordium", "Dubnium", "Seaborgium", "Bohrium", "Hassium", "Meitnerium", "Darmstadtium", "Roentgenium", "Copernicium", "Nihonium", "Flerovium", "Moscovium", "Livermorium", "Tennessine", "Oganesson"];
-const labMasses = [1, 4, 7, 9, 11, 12, 14, 16, 19, 20, 23, 24, 27, 28, 31, 32, 35, 40, 39, 40, 45, 48, 51, 52, 55, 56, 59, 59, 64, 65, 70, 73, 75, 79, 80, 84, 85, 88, 89, 91, 93, 96, 98, 101, 103, 106, 108, 112, 115, 119, 122, 128, 127, 131, 133, 137, 139, 140, 141, 144, 145, 150, 152, 157, 159, 163, 165, 167, 169, 173, 175, 178, 181, 184, 186, 190, 192, 195, 197, 201, 204, 207, 209, 209, 210, 222, 223, 226, 227, 232, 231, 238, 237, 244, 243, 247, 247, 251, 252, 257, 258, 259, 262, 267, 268, 271, 270, 277, 276, 281, 280, 285, 284, 289, 288, 293, 294, 294];
 
-let elPCount = 0; 
-let elECount = 0;
-const elementFactCache = new Map();
 
-function closeElementsLab() {
-    document.getElementById('elementsLabModal').classList.add('hidden');
-    document.getElementById('elementsLabModal').classList.remove('flex');
-}
 
-function getGroupClass(n) {
-    if (n === 1) return "nonmetal";
-    if (n === 2 || [10, 18, 36, 54, 86, 118].includes(n)) return "noble";
-    if ([3, 11, 19, 37, 55, 87].includes(n)) return "alkali";
-    if ([4, 12, 20, 38, 56, 88].includes(n)) return "alkaline";
-    if ((n >= 21 && n <= 30) || (n >= 39 && n <= 48) || (n >= 72 && n <= 80) || (n >= 104 && n <= 112)) return "transition";
-    if ([5, 14, 32, 33, 51, 52].includes(n)) return "metalloid";
-    if ([6, 7, 8, 9, 15, 16, 17, 34, 35, 53].includes(n)) return "nonmetal";
-    if ([13, 31, 49, 50, 81, 82, 83, 84, 85, 113, 114, 115, 116, 117].includes(n)) return "post-transition";
-    if (n >= 57 && n <= 71) return "lanthanide";
-    if (n >= 89 && n <= 103) return "actinide";
-    return "";
-}
 
-function getElPos(n) {
-    if (n === 1) return {r:1, c:1}; if (n === 2) return {r:1, c:18};
-    if (n >= 3 && n <= 4) return {r:2, c: n-2}; if (n >= 5 && n <= 10) return {r:2, c: n+8};
-    if (n >= 11 && n <= 12) return {r:3, c: n-10}; if (n >= 13 && n <= 18) return {r:3, c: n};
-    if (n >= 19 && n <= 36) return {r:4, c: n-18}; if (n >= 37 && n <= 54) return {r:5, c: n-36};
-    if (n >= 55 && n <= 56) return {r:6, c: n-54}; if (n >= 72 && n <= 86) return {r:6, c: n-68};
-    if (n >= 87 && n <= 88) return {r:7, c: n-86}; if (n >= 104 && n <= 118) return {r:7, c: n-100};
-    if (n >= 57 && n <= 71) return {r:8, c: (n-57)+3}; if (n >= 89 && n <= 103) return {r:9, c: (n-89)+3};
-}
 
-function initElementsLab() {
-    const grid = document.getElementById('periodicTableGrid');
-    if (grid.children.length === 0) {
-        for(let i=1; i<=118; i++) {
-            const div = document.createElement('div');
-            const groupName = getGroupClass(i);
-            div.className = `el-cell ${groupName}`;
-            div.id = 'el-idx-' + i;
-            const pos = getElPos(i);
-            div.style.gridRow = pos.r; div.style.gridColumn = pos.c;
-            div.innerHTML = `<span class="el-at-num">${i}</span><span class="el-sym">${labElements[i-1]}</span>`;
-            
-            div.onclick = async () => {
-                const msg = document.getElementById('el-msg');
-                const name = (labElementNames[i-1] || labElements[i-1]);
-                const symbol = labElements[i-1];
-                const mass = labMasses[i-1];
-                const neutrons = Math.round(mass - i);
-                const group = groupName.toUpperCase();
-                const article = ["A", "E", "I", "O", "U"].includes(group[0]) ? "an" : "a";
-
-                if(elPCount === i && elECount === i) {
-                    div.classList.add('revealed');
-                    msg.className = "text-green-400 font-mono text-sm tracking-tight leading-relaxed uppercase block";
-                    msg.innerHTML = `<span class="text-white animate-pulse">ANALYZING SPECIMEN: ${name.toUpperCase()}...</span>`;
-
-                    try {
-                        let aiFact = "Essential component in scientific research.";
-                        if (elementFactCache.has(symbol)) {
-                            aiFact = elementFactCache.get(symbol);
-                        } else if (typeof puter !== 'undefined' && puter.ai?.chat) {
-                            const response = await puter.ai.chat(`One-sentence real-world use of ${name}. Fun and scientific.`);
-                            aiFact = response?.message?.content || response;
-                            elementFactCache.set(symbol, aiFact);
-                        }
-
-                        msg.innerHTML = `
-                            <div class="text-left w-full">
-                                <span class="text-white">ANALYSIS COMPLETE:</span> <strong class="text-white underline">${name} (${symbol})</strong>, 
-                                categorized as ${article} <strong class="text-emerald-300 italic">${group}</strong>. 
-                                <br>Atomic composition: <span class="text-blue-400 font-bold">${elPCount}P</span> | 
-                                <span class="text-yellow-300 font-bold">${neutrons}N</span> | <span class="text-red-400 font-bold">${elECount}E</span>.
-                                <div class="mt-2 p-2 bg-white/5 border-l-2 border-emerald-500 normal-case text-emerald-100 italic text-xs">
-                                    <b>Application:</b> ${aiFact}
-                                </div>
-                            </div>
-                        `;
-                    } catch (err) {
-                        msg.innerHTML = `<span class="text-white">IDENTIFIED: ${name}</span>. Specimen logged.`;
-                    }
-                } else {
-                    msg.className = "text-red-400 font-mono text-sm uppercase block";
-                    msg.innerHTML = `<strong>Identification Error:</strong> Targeted cell <strong>${name}</strong> requires ${i} protons/electrons. Currently system has P:${elPCount}, E:${elECount}.`;
-                }
-            };
-            grid.appendChild(div);
-        }
-    }
-}
-
-function updateElementsLab(dp, de) {
-    elPCount = Math.max(0, elPCount + dp); 
-    elECount = Math.max(0, elECount + de);
-    document.getElementById('pCountVal').innerText = elPCount;
-    document.getElementById('eCountVal').innerText = elECount;
     
-    const canvas = document.getElementById('atom-canvas');
-    canvas.querySelectorAll('.shell, .orbit').forEach(el => el.remove());
-    
-    const config = [2, 8, 18, 32, 32, 18, 8];
-    let rem = elECount;
-    config.forEach((max, i) => {
-        if (rem <= 0) return;
-        const inShell = Math.min(rem, max);
-        const radius = 35 + (i * 15);
-          
-        const s = document.createElement('div'); 
-        s.className = 'shell';
-        s.style.width = radius*2 + 'px'; 
-        s.style.height = radius*2 + 'px';
-        canvas.appendChild(s);
-        
-        const orb = document.createElement('div'); 
-        orb.className = 'orbit';
-        orb.style.setProperty('--speed', (6 + i*2) + 's');
-        canvas.appendChild(orb);
-        
-        for(let j=0; j<inShell; j++) {
-            const e = document.createElement('div'); 
-            e.className = 'e-particle';
-            const angle = (j * (360/inShell)) * (Math.PI/180);
-            e.style.left = `calc(50% + ${Math.cos(angle)*radius}px - 4px)`;
-            e.style.top = `calc(50% + ${Math.sin(angle)*radius}px - 4px)`;
-            orb.appendChild(e);
-        }
-        rem -= inShell;
-    });
-}
-
-function resetElementsGame() {
-    elPCount = 0; elECount = 0;
-    updateElementsLab(0,0);
-    document.getElementById('el-msg').innerHTML = "";
-    document.querySelectorAll('.el-cell').forEach(el => el.classList.remove('revealed'));
-}
-
-// Initialize on load or whenever you open the modal
-initElementsLab();
     
       
       function closeMolLab() {
