@@ -1616,61 +1616,39 @@ footer.global-nav {
 </div>
 </div>
   
-  <div id="elementsLabModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[70] p-4 overflow-hidden">
-    <div class="bg-gray-900 border border-cyan-500 rounded-3xl p-6 w-full max-w-6xl shadow-2xl relative flex flex-col max-h-[95vh]">
-        
-        <div class="flex justify-between items-center mb-4 shrink-0">
-            <div>
-                <h2 class="text-2xl font-bold text-cyan-400 tracking-tight" style="font-family: 'Orbitron', sans-serif;">Mystery Matter Lab</h2>
-                <p class="text-[10px] text-gray-500 tracking-widest uppercase">Atomic Construction & Element Identification</p>
-            </div>
-            <button class="text-gray-400 hover:text-white transition-colors text-3xl" onclick="closeElementsLab()">✕</button>
+  <div id="elementsLabModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[70] p-4">
+    <div class="bg-gray-900 border border-cyan-500 rounded-2xl p-6 w-full max-w-4xl shadow-2xl overflow-y-auto max-h-[95vh]">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold text-cyan-400">Mystery Matter Lab</h2>
+            <button class="text-gray-400 hover:text-white" onclick="closeElementsLab()">✕</button>
         </div>
 
-        <div class="overflow-y-auto custom-scrollbar flex-grow pr-2">
+        <div id="periodicTableGrid" class="periodic-grid"></div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+            <div id="atom-canvas" class="atom-canvas">
+                <div class="nucleus-static"></div>
+            </div>
             
-            <div id="periodicTableGrid" class="periodic-grid shrink-0"></div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-6">
-                <div id="atom-canvas" class="atom-canvas">
-                    <div class="nucleus-static"></div>
-                    </div>
+            <div class="space-y-4">
+                <div class="bg-black/40 p-4 rounded-xl border border-white/10">
+                    <div class="flex justify-between text-lg"><span>Protons:</span><span id="pCountVal" class="text-red-500 font-bold">0</span></div>
+                    <div class="flex justify-between text-lg"><span>Electrons:</span><span id="eCountVal" class="text-yellow-400 font-bold">0</span></div>
+                </div>
                 
-                <div class="space-y-4">
-                    <div class="bg-black/40 p-5 rounded-2xl border border-white/10 shadow-inner">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-gray-400 text-xs uppercase tracking-widest font-bold">Proton Count</span>
-                            <span id="pCountVal" class="text-3xl text-red-500 font-mono font-bold">0</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-400 text-xs uppercase tracking-widest font-bold">Electron Count</span>
-                            <span id="eCountVal" class="text-3xl text-yellow-400 font-mono font-bold">0</span>
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-2 gap-3">
-                        <button class="bg-red-900/20 border border-red-500/50 text-red-200 py-3 rounded-xl hover:bg-red-500/20 transition-all font-bold" onclick="updateElementsLab(1, 0)">+ Proton</button>
-                        <button class="bg-red-900/20 border border-red-500/50 text-red-200 py-3 rounded-xl hover:bg-red-500/20 transition-all font-bold" onclick="updateElementsLab(-1, 0)">- Proton</button>
-                        <button class="bg-yellow-900/20 border border-yellow-500/50 text-yellow-200 py-3 rounded-xl hover:bg-yellow-500/20 transition-all font-bold" onclick="updateElementsLab(0, 1)">+ Electron</button>
-                        <button class="bg-yellow-900/20 border border-yellow-500/50 text-yellow-200 py-3 rounded-xl hover:bg-yellow-500/20 transition-all font-bold" onclick="updateElementsLab(0, -1)">- Electron</button>
-                    </div>
-                    
-                    <button class="w-full py-2 bg-slate-800 text-slate-400 text-[10px] rounded-lg tracking-[0.2em] font-bold hover:bg-slate-700 transition-all" onclick="resetElementsGame()">RESET EXPERIMENT</button>
+                <div class="grid grid-cols-2 gap-2">
+                    <button class="bg-red-900/20 border border-red-500/50 text-red-200 p-2 rounded" onclick="updateElementsLab(1, 0)">+ Proton</button>
+                    <button class="bg-red-900/20 border border-red-500/50 text-red-200 p-2 rounded" onclick="updateElementsLab(-1, 0)">- Proton</button>
+                    <button class="bg-yellow-900/20 border border-yellow-500/50 text-yellow-200 p-2 rounded" onclick="updateElementsLab(0, 1)">+ Electron</button>
+                    <button class="bg-yellow-900/20 border border-yellow-500/50 text-yellow-200 p-2 rounded" onclick="updateElementsLab(0, -1)">- Electron</button>
                 </div>
+                <button class="w-full p-2 bg-gray-800 text-gray-400 text-xs rounded" onclick="resetElementsGame()">RESET ALL</button>
+                <div id="el-msg" class="text-center font-bold h-6"></div>
             </div>
-
-            <div class="w-full border-t border-white/5 pt-6">
-                <div class="text-[10px] text-cyan-500 font-bold mb-2 uppercase tracking-[0.3em] ml-2 text-center">Spectroscopic Analysis</div>
-                <div id="el-msg" class="min-h-[100px] w-full bg-black/40 rounded-2xl border border-cyan-500/20 p-6 flex items-center justify-center text-center shadow-[inset_0_0_20px_rgba(0,0,0,0.5)]">
-                    <div class="text-2xl md:text-3xl font-bold text-white tracking-tight leading-tight">
-                        Assemble an atom to identify the element.
-                    </div>
-                </div>
-            </div>
-
-        </div> 
+        </div>
     </div>
-</div>
+  </div>
+    
   
 <div id="solutionLabModal" class="fixed inset-0 bg-black/90 hidden items-start md:items-center justify-center z-[70] p-2 md:p-4 overflow-y-auto">
     <div class="bg-gray-900 border border-pink-500 rounded-2xl w-full max-w-4xl shadow-2xl solution-lab-card my-4 md:my-auto overflow-hidden flex flex-col">
@@ -3653,12 +3631,13 @@ function renderElectronUI(data, protons, electrons, name, valenceCount, target, 
 }
     
     
-  function closeElementsLab() {
+  
+     function closeElementsLab() {
     document.getElementById('elementsLabModal').classList.add('hidden');
     document.getElementById('elementsLabModal').classList.remove('flex');
 }
 
-// Approximate atomic masses (Mass - Protons = Neutrons)
+// Approximate atomic masses to calculate neutrons (Mass - Protons = Neutrons)
 const labMasses = [
   1, 4, 7, 9, 11, 12, 14, 16, 19, 20, 23, 24, 27, 28, 31, 32, 35, 40, 39, 40,
   45, 48, 51, 52, 55, 56, 59, 59, 64, 65, 70, 73, 75, 79, 80, 84, 85, 88, 89, 91,
@@ -3668,9 +3647,9 @@ const labMasses = [
   258, 259, 262, 267, 268, 271, 270, 277, 276, 281, 280, 285, 284, 289, 288, 293, 294, 294
 ];
     
+// --- Elements Lab Logic ---
 let elPCount = 0; 
 let elECount = 0;
-const elementFactCache = new Map();
 
 function getGroupClass(n) {
     if (n === 1) return "nonmetal";
@@ -3696,9 +3675,11 @@ function getElPos(n) {
     if (n >= 57 && n <= 71) return {r:8, c: (n-57)+3}; if (n >= 89 && n <= 103) return {r:9, c: (n-89)+3};
 }
 
+// Global cache for element facts to save API calls
+const elementFactCache = new Map();
+
 function initElementsLab() {
     const grid = document.getElementById('periodicTableGrid');
-    if (!grid) return;
     if (grid.children.length === 0) {
         for(let i=1; i<=118; i++) {
             const div = document.createElement('div');
@@ -3707,57 +3688,62 @@ function initElementsLab() {
             div.id = 'el-idx-' + i;
             const pos = getElPos(i);
             div.style.gridRow = pos.r; div.style.gridColumn = pos.c;
-            
-            // Ensure labElements array exists
-            const symbol = (typeof labElements !== 'undefined') ? labElements[i-1] : "?";
-            div.innerHTML = `<span class="el-at-num">${i}</span><span class="el-sym">${symbol}</span>`;
+            div.innerHTML = `<span class="el-at-num">${i}</span><span class="el-sym">${labElements[i-1]}</span>`;
             
             div.onclick = async () => {
                 const msg = document.getElementById('el-msg');
-                const name = (typeof labElementNames !== 'undefined') ? labElementNames[i-1] : symbol;
+                const name = (labElementNames[i-1] || labElements[i-1]);
+                const symbol = labElements[i-1];
                 const mass = labMasses[i-1];
                 const neutrons = Math.round(mass - i);
                 const group = groupName.toUpperCase();
+                
                 const article = ["A", "E", "I", "O", "U"].includes(group[0]) ? "an" : "a";
 
                 if(elPCount === i && elECount === i) {
                     div.classList.add('revealed');
-                    // ENLARGED FONT CLASS
-                    msg.className = "text-center font-bold text-xl md:text-2xl uppercase tracking-tight leading-tight w-full p-4";
+                    msg.className = "text-green-400 font-mono text-sm tracking-tight leading-relaxed uppercase";
                     
-                    msg.innerHTML = `<span class="text-cyan-400 animate-pulse">Scanning Molecular Signature: ${name}...</span>`;
+                    // Instant base info
+                    msg.innerHTML = `
+                        <span class="text-white animate-pulse">ANALYZING SPECIMEN: ${name.toUpperCase()}...</span>
+                    `;
 
+                    // AI Call for Real-Life Examples
                     try {
-                        let aiFact = "Highly specialized atomic structure.";
+                        let aiFact = "";
                         if (elementFactCache.has(symbol)) {
                             aiFact = elementFactCache.get(symbol);
-                        } else if (typeof puter !== 'undefined' && puter.ai) {
+                        } else if (typeof puter !== 'undefined' && puter.ai?.chat) {
                             const response = await puter.ai.chat(
-                                `Give me a very short, fun, one-sentence real-world example of how ${name} is used.`
+                                `Give me a one-sentence real-world everyday example of how ${name} (${symbol}) is used. Keep it fun and scientific.`
                             );
                             aiFact = response?.message?.content || response;
                             elementFactCache.set(symbol, aiFact);
                         }
 
-                        // Final Display with Enlarged Text
                         msg.innerHTML = `
-                            <div class="flex flex-col gap-1">
-                                <span class="text-green-400">Target Identified: ${name} (${symbol})</span>
-                                <div class="text-sm tracking-widest text-gray-400">
-                                    ${article} ${group} | ${i}P • ${neutrons}N • ${elECount}E
-                                </div>
-                                <div class="mt-2 text-base text-white italic font-normal normal-case border-t border-white/10 pt-2">
-                                    "${aiFact}"
-                                </div>
+                            <span class="text-white">ANALYSIS COMPLETE:</span> The identified specimen is 
+                            <strong class="text-white underline">${name} (${symbol})</strong>, 
+                            categorized as ${article} <strong class="text-emerald-300 italic">${group}</strong>. 
+                            <br>Atomic composition: 
+                            <span class="text-blue-400 font-bold">${elPCount}P</span> | 
+                            <span class="text-yellow-300 font-bold">${neutrons}N</span> | 
+                            <span class="text-red-400 font-bold">${elECount}E</span>.
+                            <div class="mt-2 p-2 bg-white/5 border-l-2 border-emerald-500 normal-case text-emerald-100 italic">
+                                <b>Real-World Application:</b> ${aiFact}
                             </div>
                         `;
                     } catch (err) {
-                        msg.innerHTML = `<span class="text-green-400">Identified: ${name}</span>`;
+                        console.warn("AI Fact failed", err);
+                        // Fallback if AI fails
+                        msg.innerHTML = `<span class="text-white">IDENTIFIED: ${name}</span>. Error loading extra data.`;
                     }
 
                 } else {
-                    msg.className = "text-red-500 font-bold text-lg uppercase text-center p-4";
-                    msg.innerHTML = `Calibration Error: ${name} requires ${i} protons. <br><span class="text-xs text-gray-500">System has ${elPCount}.</span>`;
+                    msg.className = "text-red-400 font-mono text-sm uppercase";
+                    msg.innerHTML = `<strong>Identification Error:</strong> Targeted cell <strong>${name}</strong> 
+                                    requires ${i} protons/electrons. Current system state: P:${elPCount}, E:${elECount}.`;
                 }
             };
             grid.appendChild(div);
@@ -3804,10 +3790,7 @@ function resetElementsGame() {
     elPCount = 0; elECount = 0;
     updateElementsLab(0,0);
     document.querySelectorAll('.el-cell').forEach(el => el.classList.remove('revealed'));
-    const msg = document.getElementById('el-msg');
-    msg.innerHTML = "";
-}  
-     
+} 
     
       
       function closeMolLab() {
